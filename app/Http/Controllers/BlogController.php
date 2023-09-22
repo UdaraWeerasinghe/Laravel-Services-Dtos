@@ -4,9 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Dtos\BlogDto;
 use App\Http\Requests\BlogRequest;
+use App\Http\Resources\Blog\BlogCollection;
+use App\Http\Resources\Blog\BlogResource;
 use App\Models\Blog;
 use App\Services\BlogService;
-use Illuminate\Http\Request;
 
 class BlogController extends Controller
 {
@@ -16,11 +17,15 @@ class BlogController extends Controller
     ) {
     }
 
-    public function store(BlogRequest $request)
+    public function index()
     {
-        $post = $this->service->store(BlogDto::fromRequest($request));
-
-        return $post;
+        return new BlogCollection(Blog::all());
     }
 
+    public function store(BlogRequest $request)
+    {
+        $blog = $this->service->store(BlogDto::fromRequest($request));
+
+        return new BlogResource($blog);
+    }
 }
