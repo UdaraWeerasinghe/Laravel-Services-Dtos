@@ -2,16 +2,17 @@
 
 namespace App\Services;
 
+use App\Dtos\BlogDto;
 use App\Models\Blog;
 
 class BlogService
 {
-    function store($title, $content, $image){
+    function store(BlogDto $dto)
+    {
         return Blog::create([
-            'title' => $title,
-            'content' => $content,
-            'image' => $image
+            'title' => $dto->title,
+            'content' => $dto->content,
+            'image' => $dto->image
         ]);
-        
     }
 }
